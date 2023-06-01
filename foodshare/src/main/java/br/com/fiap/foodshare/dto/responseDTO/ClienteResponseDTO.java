@@ -1,4 +1,4 @@
-package br.com.fiap.foodshare.dto;
+package br.com.fiap.foodshare.dto.responseDTO;
 
 import br.com.fiap.foodshare.models.enums.Perfil;
 import jakarta.persistence.Column;
@@ -8,7 +8,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Data;
 
 @Data
-public class ClienteDTO {
+public class ClienteResponseDTO {
 
     private Long id;
 
@@ -25,6 +25,6 @@ public class ClienteDTO {
     private Perfil perfil;
 
     @NotNull
-    private EnderecoDTO endereco;
+    private EnderecoResponseDTO endereco;
 
 }
