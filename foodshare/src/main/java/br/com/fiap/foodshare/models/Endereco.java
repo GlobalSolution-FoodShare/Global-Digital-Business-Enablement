@@ -32,6 +32,12 @@ public class Endereco {
     @Column(name = "DS_LOGRADOURO")
     private String logradouro;
 
+    @Column(name = "NR_LOGRADOURO")
+    private String numero;
+
+    @Column(name = "DS_COMPLEMENTO")
+    private String complemento;
+
     @Column(name = "NM_CIDADE")
     private String cidade;
 

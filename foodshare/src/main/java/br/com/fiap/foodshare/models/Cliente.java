@@ -39,7 +39,7 @@ public class Cliente implements Serializable{
     private String cpf;
 
     @Column(name = "DS_NOME_COMPLETO")
-    @Size(max = 150)
+    @Size(max = 90)
     private String nomeCompleto;
 
 }

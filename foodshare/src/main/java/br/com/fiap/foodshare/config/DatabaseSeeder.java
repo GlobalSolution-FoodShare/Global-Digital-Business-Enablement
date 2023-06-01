@@ -12,6 +12,7 @@ import br.com.fiap.foodshare.models.Produto;
 import br.com.fiap.foodshare.models.Receptor;
 import br.com.fiap.foodshare.models.Solicitacao;
 import br.com.fiap.foodshare.models.SolicitacaoProduto;
+import br.com.fiap.foodshare.models.enums.Status;
 import br.com.fiap.foodshare.repository.ClienteRepository;
 import br.com.fiap.foodshare.repository.DoacaoRepository;
 import br.com.fiap.foodshare.repository.DoadorRepository;
@@ -57,16 +58,16 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         Doacao doacao = new Doacao();
         doacao.setDataDoacao(LocalDateTime.now());
-        doacao.setStatus("Pendente");
+        doacao.setStatus(Status.AGUARDANDO);
 
         Doacao doacao2 = new Doacao();
         doacao2.setDataDoacao(LocalDateTime.now());
-        doacao2.setStatus("Pendente");
+        doacao2.setStatus(Status.AGUARDANDO);
 
         Solicitacao solicitacao = new Solicitacao();
         solicitacao.setReceptor(receptor);
         solicitacao.setDataSolicitacao(LocalDateTime.now());
-        solicitacao.setStatus("Pendente");
+        solicitacao.setStatus(Status.AGUARDANDO);
 
         doador = doadorRepository.save(doador);
 
@@ -100,7 +101,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         Solicitacao solicitacao = new Solicitacao();
         solicitacao.setReceptor(receptor);
         solicitacao.setDataSolicitacao(LocalDateTime.now());
-        solicitacao.setStatus("Pendente");
+        solicitacao.setStatus(Status.AGUARDANDO);
 
         var receptorXsolicitacao = solicitacaoRepository.save(solicitacao);
 
@@ -136,7 +137,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         doacao.setDataDoacao(LocalDateTime.now());
         doacao.setDoador(doador);
         doacao.setSolicitacaoProduto(solicitacaoProduto);
-        doacao.setStatus("Aguardando retirada");
+        doacao.setStatus(Status.AGUARDANDO);
 
         doacaoRepository.save(doacao);
 

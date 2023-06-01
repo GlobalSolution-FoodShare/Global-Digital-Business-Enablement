@@ -3,8 +3,11 @@ package br.com.fiap.foodshare.models;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import br.com.fiap.foodshare.models.enums.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -30,11 +33,10 @@ public class Solicitacao {
     @Column(name = "DT_SOLICITACAO")
     private LocalDateTime dataSolicitacao;
 
-
     @OneToMany(mappedBy = "solicitacao")
     private List<SolicitacaoProduto> solicitacaoProduto;
 
-
     @Column(name = "DS_STATUS")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }

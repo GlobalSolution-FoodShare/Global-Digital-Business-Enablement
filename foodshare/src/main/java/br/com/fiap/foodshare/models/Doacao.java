@@ -2,8 +2,11 @@ package br.com.fiap.foodshare.models;
 
 import java.time.LocalDateTime;
 
+import br.com.fiap.foodshare.models.enums.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -33,5 +36,6 @@ public class Doacao {
     private LocalDateTime dataDoacao;
 
     @Column(name = "DS_STATUS")
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private Status status;
 }
