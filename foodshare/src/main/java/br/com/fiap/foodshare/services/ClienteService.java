@@ -18,7 +18,7 @@ public interface ClienteService {
 
     ClienteResponseDTO atualizar(Long id, ClienteDTO cliente);
     
-    List<ClienteResponseDTO> buscarPorRaioDistancia(Double longetude, Double Latitude, Double raio);
+    List<ClienteResponseDTO> buscarPorRaioDistancia(Double latitude, Double longitude, Double raio);
 
     void deletar(Long id);
 

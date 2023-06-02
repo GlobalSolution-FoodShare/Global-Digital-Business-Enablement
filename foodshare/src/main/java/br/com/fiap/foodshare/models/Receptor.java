@@ -26,7 +26,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Receptor extends Cliente {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -7701916703597620827L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_RECEPTOR")
     private Long id;

@@ -27,7 +27,12 @@ import lombok.Setter;
 @NoArgsConstructor
 public class Doador extends Cliente {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_CLIENTE")
     private Long id;

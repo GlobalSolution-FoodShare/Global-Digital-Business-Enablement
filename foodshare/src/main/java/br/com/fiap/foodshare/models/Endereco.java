@@ -22,7 +22,12 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 public class Endereco implements Serializable {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_ENDERECO")
     private Long id;

@@ -99,15 +99,25 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public List<ClienteResponseDTO> buscarPorRaioDistancia(Double latitude, Double longitude, Double raio) {
-        List<ClienteResponseDTO> clientes = clienteRepository.buscarClientesNoRaio(latitude, longitude, raio);
+        List<Cliente> clientes = clienteRepository.buscarClientesNoRaio(latitude, longitude, raio);
 
-        // Filtrar os clientes com base nas condições
-        List<ClienteResponseDTO> clientesFiltrados = clientes.stream()
+        
+        // Mapear os objetos Cliente para ClienteResponseDTO
+        List<ClienteResponseDTO> clientesResponse = clientes.stream()
+                .map(cliente -> {
+                    ClienteResponseDTO responseDTO = new ClienteResponseDTO(cliente);
+                    return responseDTO;
+                })
+                .collect(Collectors.toList());
+
+        List<ClienteResponseDTO> clientesFiltrados = clientesResponse.stream()
                 .filter(cliente -> !cliente.getPerfil().equals(Perfil.DOADOR))
                 .filter(cliente -> !cliente.getEndereco().getLatitude().equals(latitude)
                         || !cliente.getEndereco().getLongitude().equals(longitude))
                 .collect(Collectors.toList());
 
-        return clientesFiltrados;
+        return clientesFiltrados	;
     }
+
+
 }

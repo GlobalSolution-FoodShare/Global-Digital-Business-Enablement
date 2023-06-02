@@ -31,7 +31,12 @@ import lombok.NoArgsConstructor;
 @Table(name = "FS_T_CLIENTE", uniqueConstraints = { @UniqueConstraint(columnNames = { "NR_CPF" }) })
 public abstract class Cliente implements Serializable {
 
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_CLIENTE")
     private Long id;

@@ -33,7 +33,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Table(name = "FS_T_USUARIO", uniqueConstraints = { @UniqueConstraint(columnNames = { "DS_EMAIL" }) })
 public class Usuario implements UserDetails {
-    @Id
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_USUARIO")
     private Long id;
