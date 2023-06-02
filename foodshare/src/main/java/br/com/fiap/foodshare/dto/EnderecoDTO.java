@@ -1,10 +1,15 @@
 package br.com.fiap.foodshare.dto;
 
+import br.com.fiap.foodshare.models.Endereco;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class EnderecoDTO {
 
     private Long id;
@@ -49,4 +54,20 @@ public class EnderecoDTO {
     @NotNull
     @Size(max = 50, message = "Longetitude pode ter no máximo 50 caracteres")
     private String longitude;
+
+    public EnderecoDTO(Endereco endereco) {
+        this.id = endereco.getId();
+        this.cliente = endereco.getCliente().getId();
+        this.cep = endereco.getCep();
+        this.bairro = endereco.getBairro();
+        this.logradouro = endereco.getLogradouro();
+        this.numero = endereco.getNumero();
+        this.complemento = endereco.getComplemento();
+        this.cidade = endereco.getCidade();
+        this.estado = endereco.getEstado();
+        this.uf = endereco.getUf();
+        this.latitude = endereco.getLongitude();
+        this.longitude = endereco.getLongitude();
+    }
+
 }

@@ -1,13 +1,20 @@
 package br.com.fiap.foodshare.dto.responseDTO;
 
+import br.com.fiap.foodshare.models.Cliente;
+import br.com.fiap.foodshare.models.Doador;
+import br.com.fiap.foodshare.models.Receptor;
 import br.com.fiap.foodshare.models.enums.Perfil;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class ClienteResponseDTO {
 
     private Long id;
@@ -24,7 +31,39 @@ public class ClienteResponseDTO {
     @NotNull(message = "O perfil é obrigatório")
     private Perfil perfil;
 
-    @NotNull
     private EnderecoResponseDTO endereco;
+
+    public ClienteResponseDTO(Cliente cliente) {
+        this.id = cliente.getId();
+        this.cpf = cliente.getCpf();
+        this.nomeCompleto = cliente.getNomeCompleto();
+        this.perfil = cliente.getTipo();
+        this.endereco = (cliente.getEndereco() == null ? new EnderecoResponseDTO(null)
+                : new EnderecoResponseDTO(cliente.getEndereco()));
+    }
+
+    public ClienteResponseDTO(Receptor cliente) {
+        this.id = cliente.getId();
+        this.cpf = cliente.getCpf();
+        this.nomeCompleto = cliente.getNomeCompleto();
+        this.perfil = cliente.getTipo();
+        this.endereco = (cliente.getEndereco() == null ? new EnderecoResponseDTO(null)
+                : new EnderecoResponseDTO(cliente.getEndereco()));
+    }
+
+    public ClienteResponseDTO(Doador cliente) {
+        this.id = cliente.getId();
+        this.cpf = cliente.getCpf();
+        this.nomeCompleto = cliente.getNomeCompleto();
+        this.perfil = cliente.getTipo();
+        this.endereco = (cliente.getEndereco() == null ? new EnderecoResponseDTO(null)
+                : new EnderecoResponseDTO(cliente.getEndereco()));
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente [id=" + id + ", cpf=" + cpf + ", nomeCompleto=" + nomeCompleto + ", Endereco: " + endereco
+                + "]";
+    }
 
 }

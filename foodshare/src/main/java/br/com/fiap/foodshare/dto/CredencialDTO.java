@@ -1,9 +1,9 @@
-package br.com.fiap.foodshare.models;
+package br.com.fiap.foodshare.dto;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 
-public record Credencial(String email, String senha) {
+public record CredencialDTO(String email, String senha) {
 
     public Authentication toAuthentication() {
         return new UsernamePasswordAuthenticationToken(email, senha);

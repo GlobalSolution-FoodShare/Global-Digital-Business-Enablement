@@ -1,5 +1,7 @@
 package br.com.fiap.foodshare.models;
 
+import br.com.fiap.foodshare.dto.ClienteDTO;
+import br.com.fiap.foodshare.models.enums.Perfil;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -17,7 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
-@PrimaryKeyJoinColumn(name="id_cliente")
+@PrimaryKeyJoinColumn(name = "id_cliente")
 @Table(name = "FS_T_DOADOR")
 @Getter
 @Setter
@@ -30,8 +32,15 @@ public class Doador extends Cliente {
     @Column(name = "ID_CLIENTE")
     private Long id;
 
-
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
+
+    public Perfil getTipo() {
+        return Perfil.DOADOR;
+    }
+
+    public Doador(ClienteDTO clienteDTO) {
+        super(clienteDTO);
+    }
 }

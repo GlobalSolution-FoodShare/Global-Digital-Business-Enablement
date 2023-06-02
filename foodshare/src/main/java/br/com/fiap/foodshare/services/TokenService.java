@@ -11,7 +11,7 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 
-import br.com.fiap.foodshare.models.Credencial;
+import br.com.fiap.foodshare.dto.CredencialDTO;
 import br.com.fiap.foodshare.models.Token;
 import br.com.fiap.foodshare.models.Usuario;
 import br.com.fiap.foodshare.repository.UsuarioRepository;
@@ -26,30 +26,26 @@ public class TokenService {
     @Value("${jwt.secret}")
     String secret;
 
-    public Token generateToken(@Valid Credencial credencial) {
-        Algorithm alg = Algorithm.HMAC256(secret);
+    public Token generateToken(@Valid CredencialDTO credencial) {
+        Algorithm alg = Algorithm.HMAC256("eyJzdWIiOiJqb2FvQGZpYXAuY29tLmJyIiwiaXNzIjoiTWV1SnVsaXVzIiwiZXhwIjoxNjgzNTk1NTg4fQ");
         String token = JWT.create()
-                    .withSubject(credencial.email())
-                    .withIssuer("MeuJulius")
-                    .withExpiresAt(Instant.now().plus(1, ChronoUnit.HOURS))
-                    .sign(alg)
-                    ;
-        return new Token(token, "JWT", "Bearer");
+                .withSubject(credencial.email())
+                .withIssuer("MeuJulius")
+                .withExpiresAt(Instant.now().plus(1, ChronoUnit.HOURS))
+                .sign(alg);
+        return new Token(token, "JWT", "Bearer", null);
     }
 
     public Usuario getValidateUser(String token) {
         Algorithm alg = Algorithm.HMAC256(secret);
         var email = JWT.require(alg)
-                    .withIssuer("foodShare")
-                    .build()
-                    .verify(token)
-                    .getSubject()
-                    ;
+                .withIssuer("MeuJulius")
+                .build()
+                .verify(token)
+                .getSubject();
 
         return usuarioRepository.findByEmail(email)
-                    .orElseThrow(() -> new JWTVerificationException("Usuario invalido"));
+                .orElseThrow(() -> new JWTVerificationException("Usuario invalido"));
     }
 
-
-    
 }

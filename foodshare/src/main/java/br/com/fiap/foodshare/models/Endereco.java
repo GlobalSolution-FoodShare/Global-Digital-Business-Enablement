@@ -1,5 +1,11 @@
 package br.com.fiap.foodshare.models;
 
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import br.com.fiap.foodshare.dto.EnderecoDTO;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,17 +15,20 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "FS_T_ENDERECO")
 @Data
-public class Endereco {
+@NoArgsConstructor
+public class Endereco implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_ENDERECO")
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.ALL, CascadeType.MERGE})
+    @JsonIgnore
     @JoinColumn(name = "ID_CLIENTE")
     private Cliente cliente;
 
@@ -52,4 +61,46 @@ public class Endereco {
 
     @Column(name = "NR_LATITUDE")
     private String latitude;
+
+
+    
+
+    public Endereco(Long id, Cliente cliente, String cep, String bairro, String logradouro, String numero,
+            String complemento, String cidade, String estado, String uf, String longitude, String latitude) {
+        this.id = id;
+        this.cliente = cliente;
+        this.cep = cep;
+        this.bairro = bairro;
+        this.logradouro = logradouro;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.uf = uf;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
+    public Endereco(EnderecoDTO enderecoDTO) {
+        this.cep = enderecoDTO.getCep();
+        this.bairro = enderecoDTO.getBairro();
+        this.logradouro = enderecoDTO.getLogradouro();
+        this.numero = enderecoDTO.getNumero();
+        this.complemento = enderecoDTO.getComplemento();
+        this.cidade = enderecoDTO.getCidade();
+        this.estado = enderecoDTO.getEstado();
+        this.uf = enderecoDTO.getUf();
+        this.longitude = enderecoDTO.getLongitude();
+        this.latitude = enderecoDTO.getLatitude();
+    }
+
+
+
+
+    @Override
+public String toString() {
+    return "Endereco [id=" + id + ", cep=" + cep + ", bairro=" + bairro + ", logradouro=" + logradouro + ", numero="
+            + numero + ", complemento=" + complemento + ", cidade=" + cidade + ", estado=" + estado + ", uf=" + uf
+            + ", longitude=" + longitude + ", latitude=" + latitude + "]";
+}
 }

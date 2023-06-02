@@ -10,7 +10,6 @@ public class UsuarioDTO {
 
     private Long id;
 
- 
     @NotNull(message = "Id do cliente é obrigatório")
     private Long idCliente;
 

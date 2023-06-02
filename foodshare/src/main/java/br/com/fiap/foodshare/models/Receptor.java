@@ -1,5 +1,7 @@
 package br.com.fiap.foodshare.models;
 
+import br.com.fiap.foodshare.dto.ClienteDTO;
+import br.com.fiap.foodshare.models.enums.Perfil;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -32,4 +34,14 @@ public class Receptor extends Cliente {
     @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
+
+    public Perfil getTipo(){
+        return Perfil.RECEPTOR;
+    }
+
+    public Receptor(ClienteDTO clienteDTO) {
+        super(clienteDTO);
+    }
+
+    
 }

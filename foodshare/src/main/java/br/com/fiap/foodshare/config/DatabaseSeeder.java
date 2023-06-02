@@ -5,13 +5,17 @@ import java.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import br.com.fiap.foodshare.models.Doacao;
 import br.com.fiap.foodshare.models.Doador;
+import br.com.fiap.foodshare.models.Endereco;
 import br.com.fiap.foodshare.models.Produto;
 import br.com.fiap.foodshare.models.Receptor;
 import br.com.fiap.foodshare.models.Solicitacao;
 import br.com.fiap.foodshare.models.SolicitacaoProduto;
+import br.com.fiap.foodshare.models.Usuario;
 import br.com.fiap.foodshare.models.enums.Status;
 import br.com.fiap.foodshare.repository.ClienteRepository;
 import br.com.fiap.foodshare.repository.DoacaoRepository;
@@ -20,6 +24,8 @@ import br.com.fiap.foodshare.repository.ProdutoRepository;
 import br.com.fiap.foodshare.repository.ReceptorRepository;
 import br.com.fiap.foodshare.repository.SolicitacaoProdutoRepository;
 import br.com.fiap.foodshare.repository.SolicitacaoRepository;
+import br.com.fiap.foodshare.repository.UsuarioRepository;
+import br.com.fiap.foodshare.services.TokenService;
 
 @Configuration
 public class DatabaseSeeder implements CommandLineRunner {
@@ -44,6 +50,18 @@ public class DatabaseSeeder implements CommandLineRunner {
     @Autowired
     private SolicitacaoProdutoRepository solicitacaoProdutoRepository;
 
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    AuthenticationManager manager;
+
+    @Autowired
+    PasswordEncoder encoder;
+
+    @Autowired
+    TokenService tokenService;
+
     @Override
     public void run(String... args) throws Exception {
 
@@ -53,8 +71,14 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         Receptor receptor = new Receptor();
 
+        Endereco receptorEndereco = criaEndereco();
+        Endereco doadorEndereco = criaEndereco();
+        receptor.setEndereco(receptorEndereco);
+
         receptor.setCpf("123.456.789-30");
-        receptor.setNomeCompleto("Gustavo viado");
+        receptor.setNomeCompleto("Gustavo Receptor");
+        receptor.setEndereco(receptorEndereco);
+        receptorEndereco.setCliente(receptor);
 
         Doacao doacao = new Doacao();
         doacao.setDataDoacao(LocalDateTime.now());
@@ -68,6 +92,9 @@ public class DatabaseSeeder implements CommandLineRunner {
         solicitacao.setReceptor(receptor);
         solicitacao.setDataSolicitacao(LocalDateTime.now());
         solicitacao.setStatus(Status.AGUARDANDO);
+
+        doador.setEndereco(doadorEndereco);
+        doadorEndereco.setCliente(doador);
 
         doador = doadorRepository.save(doador);
 
@@ -83,13 +110,71 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         solicitacaoRepository.save(solicitacao);
 
-        System.out.println(clienteRepository.count());
-
         criaProdutos();
 
         receptorRealizaSolicitacao();
 
         doadorFazDoacao();
+
+        cadastrarUsuario();
+
+        cadastrarClienteEEndereco();
+
+    }
+
+    public Endereco criaEndereco() {
+        Endereco endereco = new Endereco();
+        endereco.setCep("01234-567");
+        endereco.setBairro("Centro");
+        endereco.setLogradouro("Rua Principal");
+        endereco.setNumero("123");
+        endereco.setComplemento("Apt 456");
+        endereco.setCidade("São Paulo");
+        endereco.setEstado("São Paulo");
+        endereco.setUf("SP");
+        endereco.setLongitude("123.456");
+        endereco.setLatitude("789.012");
+
+        return endereco;
+    }
+
+    public void cadastrarUsuario() {
+        var cliente = clienteRepository.findById(1l).get();
+
+        Usuario usuarioCadadastrar = new Usuario();
+
+        usuarioCadadastrar.setEmail("luan.reis@fiap.com.br");
+        usuarioCadadastrar.setSenha(encoder.encode("senha123"));
+        usuarioCadadastrar.setCliente(cliente);
+        usuarioRepository.save(usuarioCadadastrar);
+       
+    }
+
+    public void cadastrarClienteEEndereco() {
+        // Criar um novo cliente
+        Doador cliente = new Doador();
+        cliente.setNomeCompleto("Nome do cliente");
+        cliente.setCpf("122.456.789-00");
+        // ...
+
+        Endereco endereco = new Endereco();
+        endereco.setCep("01234-567");
+        endereco.setBairro("Centro");
+        endereco.setLogradouro("Rua Principal");
+        endereco.setNumero("123");
+        endereco.setComplemento("Apt 456");
+        endereco.setCidade("São Paulo");
+        endereco.setEstado("São Paulo");
+        endereco.setUf("SP");
+        endereco.setLongitude("123.456");
+        endereco.setLatitude("789.012");
+
+        // Associar o endereço ao cliente
+        cliente.setEndereco(endereco);
+        endereco.setCliente(cliente);
+
+        // Salvar o cliente e endereço
+        clienteRepository.save(cliente);
 
     }
 
@@ -105,30 +190,24 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         var receptorXsolicitacao = solicitacaoRepository.save(solicitacao);
 
-
         SolicitacaoProduto solicitacaoProduto = new SolicitacaoProduto();
 
         solicitacaoProduto.setSolicitacao(receptorXsolicitacao);
         solicitacaoProduto.setProduto(produto);
         solicitacaoProduto.setQuantidadeProduto(3);
 
-        SolicitacaoProduto solicitacaoProduto2= new SolicitacaoProduto();
+        SolicitacaoProduto solicitacaoProduto2 = new SolicitacaoProduto();
 
         solicitacaoProduto2.setSolicitacao(receptorXsolicitacao);
         solicitacaoProduto2.setProduto(produto2);
         solicitacaoProduto2.setQuantidadeProduto(1);
 
-        System.out.println(solicitacaoProduto);
-
         solicitacaoProdutoRepository.save(solicitacaoProduto);
         solicitacaoProdutoRepository.save(solicitacaoProduto2);
 
-
-
     }
 
-
-    public void doadorFazDoacao(){
+    public void doadorFazDoacao() {
         Doador doador = doadorRepository.findById(1l).get();
         SolicitacaoProduto solicitacaoProduto = solicitacaoProdutoRepository.findById(1l).get();
 
@@ -140,7 +219,6 @@ public class DatabaseSeeder implements CommandLineRunner {
         doacao.setStatus(Status.AGUARDANDO);
 
         doacaoRepository.save(doacao);
-
 
     }
 

@@ -49,14 +49,24 @@ public class Usuario implements UserDetails {
     @NotBlank
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @Size(max = 100)
-    private String password;
+    private String senha;
 
     @Column(name = "DT_ACESSO")
     private LocalDateTime ultimoAcesso;
 
-    @OneToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "id_cliente", nullable = false)
     private Cliente cliente;
+
+    
+
+    public Usuario(Long id, @NotBlank @Size(max = 40) @Email String email, @NotBlank @Size(max = 100) String senha,
+            LocalDateTime ultimoAcesso) {
+        this.id = id;
+        this.email = email;
+        this.senha = senha;
+        this.ultimoAcesso = ultimoAcesso;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -65,7 +75,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public String getPassword() {
-        return password;
+        return senha;
     }
 
     @Override
