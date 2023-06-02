@@ -136,8 +136,8 @@ public class DatabaseSeeder implements CommandLineRunner {
         endereco.setCidade("São Paulo");
         endereco.setEstado("São Paulo");
         endereco.setUf("SP");
-        endereco.setLongitude(-46.70356750488282);
-        endereco.setLatitude(-21.607250493543066);
+        endereco.setLatitude(-23.572798279092712);
+        endereco.setLongitude(-46.636276245117195);
 
         return endereco;
     }

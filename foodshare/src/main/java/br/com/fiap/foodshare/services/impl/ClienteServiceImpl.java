@@ -1,6 +1,7 @@
 package br.com.fiap.foodshare.services.impl;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -98,7 +99,15 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     public List<ClienteResponseDTO> buscarPorRaioDistancia(Double latitude, Double longitude, Double raio) {
-        return clienteRepository.buscarClientesNoRaio(latitude, longitude, raio);
-    }
+        List<ClienteResponseDTO> clientes = clienteRepository.buscarClientesNoRaio(latitude, longitude, raio);
 
+        // Filtrar os clientes com base nas condições
+        List<ClienteResponseDTO> clientesFiltrados = clientes.stream()
+                .filter(cliente -> !cliente.getPerfil().equals(Perfil.DOADOR))
+                .filter(cliente -> !cliente.getEndereco().getLatitude().equals(latitude)
+                        || !cliente.getEndereco().getLongitude().equals(longitude))
+                .collect(Collectors.toList());
+
+        return clientesFiltrados;
+    }
 }
