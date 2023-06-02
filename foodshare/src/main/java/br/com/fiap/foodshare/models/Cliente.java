@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 
 @Entity
 @Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn(name = "TYPE")
+@DiscriminatorColumn(name = "TP_CLIENTE")
 @Data
 @NoArgsConstructor
 @EqualsAndHashCode(of = { "id" })
@@ -62,9 +62,6 @@ public abstract class Cliente implements Serializable {
         this.nomeCompleto = clienteDTO.getNomeCompleto();
         this.endereco = new Endereco(clienteDTO.getEndereco());
     }
-
-
-    
 
     @Override
     public String toString() {
