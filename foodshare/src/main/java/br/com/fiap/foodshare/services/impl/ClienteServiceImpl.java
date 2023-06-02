@@ -1,5 +1,7 @@
 package br.com.fiap.foodshare.services.impl;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -63,7 +65,7 @@ public class ClienteServiceImpl implements ClienteService {
     }
 
     @Override
-    public ClienteResponseDTO update(Long id, ClienteDTO clienteDTO) {
+    public ClienteResponseDTO atualizar(Long id, ClienteDTO clienteDTO) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new RestNotFoundException("Cliente não localizado"));
 
@@ -80,19 +82,23 @@ public class ClienteServiceImpl implements ClienteService {
         cliente.getEndereco().setLatitude(clienteDTO.getEndereco().getLatitude());
         cliente.getEndereco().setNumero(clienteDTO.getEndereco().getNumero());
 
-        System.out.println(cliente);
         cliente = clienteRepository.save(cliente);
 
         return new ClienteResponseDTO(cliente);
     }
 
     @Override
-    public void delete(Long id) {
+    public void deletar(Long id) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new RestNotFoundException("Cliente não localizado"));
 
         clienteRepository.delete(cliente);
 
+    }
+
+    @Override
+    public List<ClienteResponseDTO> buscarPorRaioDistancia(Double latitude, Double longitude, Double raio) {
+        return clienteRepository.buscarClientesNoRaio(latitude, longitude, raio);
     }
 
 }

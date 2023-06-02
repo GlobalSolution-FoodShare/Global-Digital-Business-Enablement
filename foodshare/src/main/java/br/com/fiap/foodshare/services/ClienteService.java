@@ -1,5 +1,7 @@
 package br.com.fiap.foodshare.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -14,8 +16,10 @@ public interface ClienteService {
 
     ClienteResponseDTO cadastrar(ClienteDTO cliente);
 
-    ClienteResponseDTO update(Long id, ClienteDTO cliente);
+    ClienteResponseDTO atualizar(Long id, ClienteDTO cliente);
+    
+    List<ClienteResponseDTO> buscarPorRaioDistancia(Double longetude, Double Latitude, Double raio);
 
-    void delete(Long id);
+    void deletar(Long id);
 
 }

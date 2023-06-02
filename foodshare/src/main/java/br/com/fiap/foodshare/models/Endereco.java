@@ -57,16 +57,16 @@ public class Endereco implements Serializable {
     private String uf;
 
     @Column(name = "NR_LONGITUDE")
-    private String longitude;
+    private Double longitude;
 
     @Column(name = "NR_LATITUDE")
-    private String latitude;
+    private Double latitude;
 
 
     
 
     public Endereco(Long id, Cliente cliente, String cep, String bairro, String logradouro, String numero,
-            String complemento, String cidade, String estado, String uf, String longitude, String latitude) {
+            String complemento, String cidade, String estado, String uf, Double longitude, Double latitude) {
         this.id = id;
         this.cliente = cliente;
         this.cep = cep;

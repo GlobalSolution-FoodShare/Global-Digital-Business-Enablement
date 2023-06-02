@@ -1,27 +1,34 @@
 package br.com.fiap.foodshare.dto.responseDTO;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
+import br.com.fiap.foodshare.models.Solicitacao;
 import br.com.fiap.foodshare.models.enums.Status;
-import jakarta.validation.constraints.NotNull;
-import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class SolicitacaoResponseDTO {
 
     private Long id;
-
-    @NotNull(message = "Id cliente é obrigatório")
-    private Long idCliente;
-
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Long receptor;
     private LocalDateTime data;
-
-    @NotNull(message = "Status é obrigatório")
+    private List<SolicitacaoProdutoResponseDTO> solicitacaoProduto;
     private Status status;
-    
+
+    public SolicitacaoResponseDTO(Solicitacao solicitacao) {
+        this.id = solicitacao.getId();
+        this.receptor = solicitacao.getReceptor().getId();
+        this.data = solicitacao.getData();
+        this.solicitacaoProduto = solicitacao.getSolicitacaoProduto().stream()
+                .map(SolicitacaoProdutoResponseDTO::new)
+                .collect(Collectors.toList());
+        this.status = solicitacao.getStatus();
+    }
+
 }

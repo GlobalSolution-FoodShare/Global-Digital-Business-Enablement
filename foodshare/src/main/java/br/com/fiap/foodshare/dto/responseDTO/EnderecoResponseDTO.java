@@ -17,16 +17,12 @@ public class EnderecoResponseDTO {
     private Long cliente;
 
     @NotNull
-    @Size(min = 8, max = 8, message = "CEP deve ter 8 caracteres")
-    private String cep;
+    @Size(max = 90, message = "Logradouro pode ter no máximo 90 caracteres")
+    private String logradouro;
 
     @NotNull
     @Size(max = 60, message = "Bairro pode ter no máximo 60 caracteres")
     private String bairro;
-
-    @NotNull
-    @Size(max = 90, message = "Logradouro pode ter no máximo 90 caracteres")
-    private String logradouro;
 
     @NotNull
     @Size(max = 90, message = "Bairro pode ter no máximo 60 caracteres")
@@ -48,15 +44,16 @@ public class EnderecoResponseDTO {
     private String uf;
 
     @NotNull
+    @Size(min = 8, max = 8, message = "CEP deve ter 8 caracteres")
+    private String cep;
+
+    @NotNull
     @Size(max = 50, message = "Latitude pode ter no máximo 50 caracteres")
-    private String latitude;
+    private Double latitude;
 
     @NotNull
     @Size(max = 50, message = "Longetitude pode ter no máximo 50 caracteres")
-    private String longitude;
-
-
-
+    private Double longitude;
 
     public EnderecoResponseDTO(Endereco endereco) {
         this.id = endereco.getId();
@@ -69,7 +66,7 @@ public class EnderecoResponseDTO {
         this.cidade = endereco.getCidade();
         this.estado = endereco.getEstado();
         this.uf = endereco.getUf();
-        this.latitude = endereco.getLongitude();
+        this.latitude = endereco.getLatitude();
         this.longitude = endereco.getLongitude();
     }
 

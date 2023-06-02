@@ -11,7 +11,7 @@ public class UsuarioDTO {
     private Long id;
 
     @NotNull(message = "Id do cliente é obrigatório")
-    private Long idCliente;
+    private Long cliente;
 
     @Email(message = "Email em formato errado")
     @NotNull(message = "Email é obrigatório")

@@ -14,8 +14,6 @@ import lombok.Setter;
 @NoArgsConstructor
 public class ClienteDTO {
 
-    private Long id;
-
     @NotNull
     @Column(name = "NR_CPF")
     @Pattern(regexp = "[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{2}", message = "CPF inválido. Formato esperado: XXX.XXX.XXX-XX")

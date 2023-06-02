@@ -46,14 +46,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         Token tokenComUltimoAcesso = new Token(token.token(), token.type(), token.prefix(), usuario.getUltimoAcesso());
 
-        System.out.println(tokenComUltimoAcesso);
 
         return tokenComUltimoAcesso;
     }
 
     @Override
     public UsuarioResponseDTO registrar(UsuarioDTO usuarioDTO) {
-        System.out.println(usuarioDTO.getEmail());
         if (usuarioRepository.findByEmail(usuarioDTO.getEmail()).isPresent()) {
             throw new BadRequestException("Email já existe, por favor crie outro.");
         }
@@ -62,7 +60,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setEmail(usuarioDTO.getEmail());
         usuario.setSenha(encoder.encode(usuarioDTO.getSenha()));
 
-        Cliente cliente = clienteRepository.findById(usuarioDTO.getIdCliente())
+        Cliente cliente = clienteRepository.findById(usuarioDTO.getCliente())
                 .orElseThrow(() -> new RestNotFoundException("Cliente não encontrado"));
 
         if (cliente.getUsuario() != null) {
@@ -84,6 +82,22 @@ public class UsuarioServiceImpl implements UsuarioService {
         usuario.setUltimoAcesso(LocalDateTime.now());
         return usuarioRepository.save(usuario);
 
+    }
+
+    @Override
+    public UsuarioResponseDTO atualizar(String email, UsuarioDTO usuario) {
+        var usuarioLocalizado = usuarioRepository.findByEmail(usuario.getEmail());
+
+        if (!usuarioLocalizado.isPresent()) {
+            throw new RestNotFoundException("Email não existe");
+        }
+        usuarioLocalizado.get().setSenha(encoder.encode(usuario.getSenha()));
+        Usuario save = usuarioRepository.save(usuarioLocalizado.get());
+
+        UsuarioResponseDTO responseDTO = new UsuarioResponseDTO(save.getId(),
+                save.getCliente().getId(), save.getEmail());
+
+        return responseDTO;
     }
 
 }

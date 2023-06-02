@@ -1,5 +1,7 @@
 package br.com.fiap.foodshare.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -53,14 +55,23 @@ public class ClienteController {
 
     @PutMapping("/{id}")
     public ResponseEntity<ClienteResponseDTO> update(@PathVariable Long id, @Valid @RequestBody ClienteDTO clienteDTO) {
-        ClienteResponseDTO clienteResponseDTO = clienteService.update(id, clienteDTO);
+        ClienteResponseDTO clienteResponseDTO = clienteService.atualizar(id, clienteDTO);
         return ResponseEntity.ok(clienteResponseDTO);
+    }
+
+    @GetMapping("/raio")
+    public ResponseEntity<List<ClienteResponseDTO>> buscarClientesNoRaio(@RequestParam double latitude,
+            @RequestParam double longitude,
+            @RequestParam double raio) {
+        List<ClienteResponseDTO> clientesNoRaio = clienteService.buscarPorRaioDistancia(latitude, longitude, raio);
+
+        return ResponseEntity.ok(clientesNoRaio);
     }
 
     @DeleteMapping("{id}")
     public void delete(@PathVariable Long id) {
 
-        clienteService.delete(id);
+        clienteService.deletar(id);
 
     }
 

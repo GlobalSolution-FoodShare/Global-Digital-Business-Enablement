@@ -2,6 +2,7 @@ package br.com.fiap.foodshare.models;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -17,9 +18,9 @@ public class SolicitacaoProduto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_SOLICITACAO_PRODUTO")
-    private Long idSolicitacaoProduto;
+    private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "ID_SOLICITACAO")
     private Solicitacao solicitacao;
 
@@ -28,5 +29,12 @@ public class SolicitacaoProduto {
     private Produto produto;
 
     @Column(name = "QTD_PRODUTO")
-    private Integer quantidadeProduto;
+    private Integer quantidade;
+
+    @Override
+    public String toString() {
+        return "SolicitacaoProduto [idSolicitacaoProduto=" + id + ", produto=" + produto
+                + ", quantidadeProduto=" + quantidade + "]";
+    }
+
 }

@@ -81,16 +81,16 @@ public class DatabaseSeeder implements CommandLineRunner {
         receptorEndereco.setCliente(receptor);
 
         Doacao doacao = new Doacao();
-        doacao.setDataDoacao(LocalDateTime.now());
+        doacao.setData(LocalDateTime.now());
         doacao.setStatus(Status.AGUARDANDO);
 
         Doacao doacao2 = new Doacao();
-        doacao2.setDataDoacao(LocalDateTime.now());
+        doacao2.setData(LocalDateTime.now());
         doacao2.setStatus(Status.AGUARDANDO);
 
         Solicitacao solicitacao = new Solicitacao();
         solicitacao.setReceptor(receptor);
-        solicitacao.setDataSolicitacao(LocalDateTime.now());
+        solicitacao.setData(LocalDateTime.now());
         solicitacao.setStatus(Status.AGUARDANDO);
 
         doador.setEndereco(doadorEndereco);
@@ -104,9 +104,13 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         receptorRepository.save(receptor);
 
-        doacaoRepository.save(doacao);
+        var clientesNoRaio = clienteRepository.buscarClientesNoRaio(-23.5792551, -46.641581, 10.0);
 
-        doacaoRepository.save(doacao2);
+        clientesNoRaio.forEach(c -> System.out.println(c));
+
+        // doacaoRepository.save(doacao);
+
+        // doacaoRepository.save(doacao2);
 
         solicitacaoRepository.save(solicitacao);
 
@@ -132,8 +136,8 @@ public class DatabaseSeeder implements CommandLineRunner {
         endereco.setCidade("São Paulo");
         endereco.setEstado("São Paulo");
         endereco.setUf("SP");
-        endereco.setLongitude("123.456");
-        endereco.setLatitude("789.012");
+        endereco.setLongitude(-46.70356750488282);
+        endereco.setLatitude(-21.607250493543066);
 
         return endereco;
     }
@@ -147,7 +151,7 @@ public class DatabaseSeeder implements CommandLineRunner {
         usuarioCadadastrar.setSenha(encoder.encode("senha123"));
         usuarioCadadastrar.setCliente(cliente);
         usuarioRepository.save(usuarioCadadastrar);
-       
+
     }
 
     public void cadastrarClienteEEndereco() {
@@ -166,8 +170,8 @@ public class DatabaseSeeder implements CommandLineRunner {
         endereco.setCidade("São Paulo");
         endereco.setEstado("São Paulo");
         endereco.setUf("SP");
-        endereco.setLongitude("123.456");
-        endereco.setLatitude("789.012");
+        endereco.setLongitude(-46.63563251495361);
+        endereco.setLatitude(-23.579091596182877);
 
         // Associar o endereço ao cliente
         cliente.setEndereco(endereco);
@@ -185,7 +189,7 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         Solicitacao solicitacao = new Solicitacao();
         solicitacao.setReceptor(receptor);
-        solicitacao.setDataSolicitacao(LocalDateTime.now());
+        solicitacao.setData(LocalDateTime.now());
         solicitacao.setStatus(Status.AGUARDANDO);
 
         var receptorXsolicitacao = solicitacaoRepository.save(solicitacao);
@@ -194,17 +198,18 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         solicitacaoProduto.setSolicitacao(receptorXsolicitacao);
         solicitacaoProduto.setProduto(produto);
-        solicitacaoProduto.setQuantidadeProduto(3);
+        solicitacaoProduto.setQuantidade(3);
 
         SolicitacaoProduto solicitacaoProduto2 = new SolicitacaoProduto();
 
         solicitacaoProduto2.setSolicitacao(receptorXsolicitacao);
         solicitacaoProduto2.setProduto(produto2);
-        solicitacaoProduto2.setQuantidadeProduto(1);
+        solicitacaoProduto2.setQuantidade(1);
 
         solicitacaoProdutoRepository.save(solicitacaoProduto);
         solicitacaoProdutoRepository.save(solicitacaoProduto2);
 
+        solicitacaoRepository.findById(2l).get();
     }
 
     public void doadorFazDoacao() {
@@ -213,12 +218,14 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         Doacao doacao = new Doacao();
 
-        doacao.setDataDoacao(LocalDateTime.now());
+        doacao.setData(LocalDateTime.now());
         doacao.setDoador(doador);
         doacao.setSolicitacaoProduto(solicitacaoProduto);
         doacao.setStatus(Status.AGUARDANDO);
 
         doacaoRepository.save(doacao);
+
+        solicitacaoRepository.existsDoacaoBySolicitacaoProduto(solicitacaoProduto);
 
     }
 
@@ -227,21 +234,21 @@ public class DatabaseSeeder implements CommandLineRunner {
 
         // Produto 1
         Produto produto1 = new Produto();
-        produto1.setNomeProduto("Arroz");
+        produto1.setNome("Arroz");
         produto1.setPeso(2.5);
-        produto1.setDescricaoProduto("Arroz branco");
+        produto1.setDescricao("Arroz branco");
 
         // Produto 2
         Produto produto2 = new Produto();
-        produto2.setNomeProduto("Feijão");
+        produto2.setNome("Feijão");
         produto2.setPeso(1.0);
-        produto2.setDescricaoProduto("Feijão carioca");
+        produto2.setDescricao("Feijão carioca");
 
         // Produto 3
         Produto produto3 = new Produto();
-        produto3.setNomeProduto("Óleo de Soja");
+        produto3.setNome("Óleo de Soja");
         produto3.setPeso(0.9);
-        produto3.setDescricaoProduto("Óleo de soja refinado");
+        produto3.setDescricao("Óleo de soja refinado");
 
         // Salvar os produtos no banco de dados
         produtoRepository.save(produto1);

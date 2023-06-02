@@ -1,10 +1,8 @@
 package br.com.fiap.foodshare.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
-import br.com.fiap.foodshare.models.enums.Status;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -15,13 +13,11 @@ public class SolicitacaoDTO {
     private Long id;
 
     @NotNull(message = "Id cliente é obrigatório")
-    private Long idCliente;
+    private Long cliente;
 
+    @NotNull
+    private List<SolicitacaoProdutoDTO> solicitacoesProduto;
 
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private LocalDateTime data;
-
-    @NotNull(message = "Status é obrigatório")
-    private Status status;
     
 }

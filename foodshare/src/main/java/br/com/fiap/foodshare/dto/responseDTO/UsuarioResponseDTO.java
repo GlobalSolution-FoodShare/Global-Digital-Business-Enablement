@@ -11,7 +11,7 @@ public class UsuarioResponseDTO {
     private Long id;
 
     @NotNull(message = "Id do cliente é obrigatório")
-    private Long idCliente;
+    private Long cliente;
 
     @Email(message = "Email em formato errado")
     @NotNull(message = "Email é obrigatório")
@@ -19,14 +19,14 @@ public class UsuarioResponseDTO {
 
     public UsuarioResponseDTO(Usuario usuario) {
         this.id = usuario.getId();
-        this.idCliente = usuario.getCliente().getId();
+        this.cliente = usuario.getCliente().getId();
         this.email = usuario.getEmail();
     }
 
-    public UsuarioResponseDTO(Long id, @NotNull(message = "Id do cliente é obrigatório") Long idCliente,
+    public UsuarioResponseDTO(Long id, @NotNull(message = "Id do cliente é obrigatório") Long cliente,
             @Email(message = "Email em formato errado") @NotNull(message = "Email é obrigatório") String email) {
         this.id = id;
-        this.idCliente = idCliente;
+        this.cliente = cliente;
         this.email = email;
     }
 

@@ -15,14 +15,14 @@ public class Produto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID_PRODUTO")
-    private Long idProduto;
+    private Long id;
 
     @Column(name = "NM_PRODUTO")
-    private String nomeProduto;
+    private String nome;
 
     @Column(name = "NR_PESO")
     private Double peso;
 
     @Column(name = "DS_PRODUTO")
-    private String descricaoProduto;
+    private String descricao;
 }

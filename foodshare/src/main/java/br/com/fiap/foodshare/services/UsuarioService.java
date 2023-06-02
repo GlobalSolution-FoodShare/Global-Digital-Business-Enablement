@@ -11,4 +11,6 @@ public interface UsuarioService {
 
     UsuarioResponseDTO registrar(UsuarioDTO usuario);
 
+    UsuarioResponseDTO atualizar(String email, UsuarioDTO usuario);
+
 }
