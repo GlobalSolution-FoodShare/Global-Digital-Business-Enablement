@@ -6,6 +6,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,8 @@ import br.com.fiap.foodshare.dto.FeedbackDTO;
 import br.com.fiap.foodshare.dto.responseDTO.FeedbackResponseDTO;
 import br.com.fiap.foodshare.services.FeedbackService;
 
+
+@CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
 @RestController
 @RequestMapping("/api/feedbacks")
 public class FeedbackController {

@@ -27,19 +27,29 @@ public class TokenService {
     String secret;
 
     public Token generateToken(@Valid CredencialDTO credencial) {
-        Algorithm alg = Algorithm.HMAC256("eyJzdWIiOiJqb2FvQGZpYXAuY29tLmJyIiwiaXNzIjoiTWV1SnVsaXVzIiwiZXhwIjoxNjgzNTk1NTg4fQ");
+        Algorithm alg = Algorithm.HMAC256(secret);
         String token = JWT.create()
                 .withSubject(credencial.email())
-                .withIssuer("MeuJulius")
+                .withIssuer("FoodShare10")
                 .withExpiresAt(Instant.now().plus(1, ChronoUnit.HOURS))
                 .sign(alg);
         return new Token(token, "JWT", "Bearer", null);
     }
 
+    public boolean validarToken(String token) {
+        try {
+            Algorithm algorithm = Algorithm.HMAC256(secret);
+            JWT.require(algorithm).build().verify(token);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public Usuario getValidateUser(String token) {
         Algorithm alg = Algorithm.HMAC256(secret);
         var email = JWT.require(alg)
-                .withIssuer("MeuJulius")
+                .withIssuer("FoodShare10")
                 .build()
                 .verify(token)
                 .getSubject();
