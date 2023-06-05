@@ -45,7 +45,7 @@ public abstract class Cliente implements Serializable {
     @Pattern(regexp = "[0-9]{3}\\.[0-9]{3}\\.[0-9]{3}-[0-9]{2}", message = "CPF inválido. Formato esperado: XXX.XXX.XXX-XX")
     private String cpf;
 
-    @Column(name = "DS_NOME_COMPLETO")
+    @Column(name = "nm_completo")
     @Size(max = 90)
     private String nomeCompleto;
 
