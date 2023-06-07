@@ -22,13 +22,13 @@
 
 
 ```
-- git clone https://github.com/GlobalSolution-FoodShare/Global-Digital-Business-Enablement.git
+git clone https://github.com/GlobalSolution-FoodShare/Global-Digital-Business-Enablement.git
 ```
 ```
-- cd Global-Digital-Business-Enablement/foodshare
+cd Global-Digital-Business-Enablement/foodshare
 ```
 ```
-- docker compose up --build
+docker compose up --build
 ```
 
 
