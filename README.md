@@ -64,7 +64,5 @@ docker compose up --build
 # Aquitetura do projeto:
 
 <div id="arquitetura-projeto" style="background-color: white; padding: 10px; border-radius: 10px;">
-    <img src="" />
+    <img src="https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81qcuCXYhrD7l2BGaHrbr6MFY9siwggK8iHteRwNjLpCYL5fVMdsAswRBOvptpD7yKs055VstlkLKUuVfETQvWByA5bo5g=w1366-h657" />
 </div>
-
-
