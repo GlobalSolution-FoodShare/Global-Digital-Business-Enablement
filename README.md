@@ -1,5 +1,6 @@
 # Global solutions - Digital-Business-Enablement
 
-
+- Link pitch: 
+- 
 - Swagger da aplicação:
-https://app.swaggerhub.com/apis-docs/LUANSSRR/Foodshare/1.0.0
+[clique aqui][https://app.swaggerhub.com/apis-docs/LUANSSRR/Foodshare/1.0.0]
