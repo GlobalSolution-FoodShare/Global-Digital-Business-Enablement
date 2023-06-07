@@ -39,7 +39,7 @@ docker compose up --build
 - [Vídeo pitch](https://youtu.be/hl9_DjcMqsg)  
 
 caso deseje vídeo do prótotipo:
-- [clique aqui](https://youtu.be/JkopebupOSc)
+- [Vídeo prótotipo](https://youtu.be/JkopebupOSc)
 
 # Figma: 
 ### Representação visual do projeto com a parte da UX e interação do usuário.
