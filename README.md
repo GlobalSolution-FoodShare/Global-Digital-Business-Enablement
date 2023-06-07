@@ -19,13 +19,17 @@
 
 
 # inicialização do server
+
+
 ```
 - git clone https://github.com/GlobalSolution-FoodShare/Global-Digital-Business-Enablement.git
-
+```
+```
 - cd Global-Digital-Business-Enablement/foodshare
-
+```
+```
 - docker compose up --build
-````
+```
 
 
 # Sobre:
