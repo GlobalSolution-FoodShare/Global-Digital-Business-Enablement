@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: foodshare-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: foodshare
+  template:
+    metadata:
+      labels:
+        app: foodshare
+    spec:
+      containers:
+        - name: foodshare
+          image: foodshare-server-api:latest
+          ports:
+            - containerPort: 8080
