@@ -39,7 +39,7 @@
 # Diagrama de classes: 
 
 <div id="diagrama-classe" style="background-color: white; padding: 10px; border-radius: 10px;">
-    <img src="" />
+    <img src="https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81qByUiV6N12ld_86zVMSveSr4uztUyP1ECVBy1RHfps3z_47sDFCMy_6lAXUBM5k-Dt4hTJJUSjgFJLjFOB0nrDVzbctg=w1366-h657" />
 </div>
 
 # Aquitetura do projeto:
