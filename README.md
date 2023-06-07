@@ -4,7 +4,9 @@
 
 # Sumário
 - [Sobre](#sobre)
-    
+
+- [Pitch](#pitch)
+
 - [Figma](#figma)
   
 - [Documentação Projeto](#documentação-projeto)
@@ -18,6 +20,8 @@
 # Sobre:
 ### O Food Share,uma solução tecnológica para a gestão e distribuição de alimentos.O projeto visa solucionar o problema do desperdício de alimentos e a insegurança alimentar no Brasil. Dessa forma, o Food Share promove a doação e redistribuição de alimentos para pessoas em situação de vulnerabilidade. Para alcançar esse objetivo, foi desenvolvido um sistema integrado utilizando tecnologias como React Native, Spring Boot e OracleDatabase.
 
+# Pitch:
+- [clique aqui]()  
 
 # Figma: 
 ### Representação visual do projeto com a parte da UX e interação do usuário.
@@ -39,7 +43,7 @@
 # Diagrama de classes: 
 
 <div id="diagrama-classe" style="background-color: white; padding: 10px; border-radius: 10px;">
-    <img src="" />
+    <img src="https://lh3.googleusercontent.com/u/0/drive-viewer/AFGJ81qByUiV6N12ld_86zVMSveSr4uztUyP1ECVBy1RHfps3z_47sDFCMy_6lAXUBM5k-Dt4hTJJUSjgFJLjFOB0nrDVzbctg=w1366-h657" />
 </div>
 
 # Aquitetura do projeto:
