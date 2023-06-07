@@ -36,7 +36,7 @@ docker compose up --build
 ### O Food Share,uma solução tecnológica para a gestão e distribuição de alimentos.O projeto visa solucionar o problema do desperdício de alimentos e a insegurança alimentar no Brasil. Dessa forma, o Food Share promove a doação e redistribuição de alimentos para pessoas em situação de vulnerabilidade. Para alcançar esse objetivo, foi desenvolvido um sistema integrado utilizando tecnologias como React Native, Spring Boot e OracleDatabase.
 
 # Pitch:
-- [clique aqui](https://youtu.be/hl9_DjcMqsg)  
+- [Vídeo pitch](https://youtu.be/hl9_DjcMqsg)  
 
 caso deseje vídeo do prótotipo:
 - [clique aqui](https://youtu.be/JkopebupOSc)
