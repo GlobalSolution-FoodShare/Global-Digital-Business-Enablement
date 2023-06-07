@@ -18,7 +18,7 @@
 - [Arquitetura](#arquitetura-projeto)
 
 
-# inicialização do server api
+# inicialização do server api usando docker
 
 
 ```
