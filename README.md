@@ -17,6 +17,17 @@
 
 - [Arquitetura](#arquitetura-projeto)
 
+
+# inicialização do server
+```
+- git clone https://github.com/GlobalSolution-FoodShare/Global-Digital-Business-Enablement.git
+
+- cd Global-Digital-Business-Enablement/foodshare
+
+- docker compose up --build
+````
+
+
 # Sobre:
 ### O Food Share,uma solução tecnológica para a gestão e distribuição de alimentos.O projeto visa solucionar o problema do desperdício de alimentos e a insegurança alimentar no Brasil. Dessa forma, o Food Share promove a doação e redistribuição de alimentos para pessoas em situação de vulnerabilidade. Para alcançar esse objetivo, foi desenvolvido um sistema integrado utilizando tecnologias como React Native, Spring Boot e OracleDatabase.
 
