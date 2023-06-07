@@ -38,7 +38,7 @@
 
 # Diagrama de classes: 
 
-<div id="arquitetura-projeto" style="background-color: white; padding: 10px; border-radius: 10px;">
+<div id="diagrama-classe" style="background-color: white; padding: 10px; border-radius: 10px;">
     <img src="" />
 </div>
 
