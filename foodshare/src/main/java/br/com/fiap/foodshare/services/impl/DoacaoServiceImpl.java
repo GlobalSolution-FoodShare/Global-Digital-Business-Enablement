@@ -1,8 +1,5 @@
 package br.com.fiap.foodshare.services.impl;
 
-import java.util.List;
-import java.util.stream.Collectors;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -146,20 +143,19 @@ public class DoacaoServiceImpl implements DoacaoService {
 	}
 
 	@Override
-	public List<DoacaoResponseDTO> buscarDoacoesPorIdCliente(Long idCliente) {
-		Doador doador = doadorRepository.findById(idCliente)
-				.orElseThrow(() -> new RestNotFoundException("Doador com ID " + idCliente + " não encontrado."));
+	public Page<DoacaoResponseDTO> buscarDoacoesPorIdCliente(Long idCliente, Pageable pageable) {
+	    Doador doador = doadorRepository.findById(idCliente)
+	            .orElseThrow(() -> new RestNotFoundException("Doador com ID " + idCliente + " não encontrado."));
 
-		List<Doacao> doacoes = doacaoRepository.findByDoador(doador);
-		System.out.println(doacoes.get(0).getSolicitacaoProduto().getSolicitacao());
+	    Page<Doacao> doacoes = doacaoRepository.findByDoador(doador, pageable);
 
-		return doacoes.stream().map(doacao -> {
-			DoacaoResponseDTO doacaoResponseDTO = new DoacaoResponseDTO(doacao);
-			doacaoResponseDTO.getSolicitacaoProduto()
-					.setJaFoiDoado(verificaDoacoesProdutoSolicitacao(doacaoResponseDTO.getSolicitacaoProduto()));
-			return doacaoResponseDTO;
-		}).collect(Collectors.toList());
-
+	    return doacoes.map(doacao -> {
+	        DoacaoResponseDTO doacaoResponseDTO = new DoacaoResponseDTO(doacao);
+	        doacaoResponseDTO.getSolicitacaoProduto()
+	                .setJaFoiDoado(verificaDoacoesProdutoSolicitacao(doacaoResponseDTO.getSolicitacaoProduto()));
+	        return doacaoResponseDTO;
+	    });
 	}
+
 
 }

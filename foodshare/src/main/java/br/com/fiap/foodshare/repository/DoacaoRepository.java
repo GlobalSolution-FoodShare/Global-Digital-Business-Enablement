@@ -1,7 +1,5 @@
 package br.com.fiap.foodshare.repository;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -15,7 +13,7 @@ public interface DoacaoRepository extends JpaRepository<Doacao, Long> {
 
 	Page<Doacao> findAll(Pageable pageable);
 
-	List<Doacao> findByDoador(Doador doador);
+	Page<Doacao> findByDoador(Doador doador, Pageable pageable);
 
 	@Query("SELECT COUNT(d) > 0 FROM Doacao d WHERE d.doador = :doador AND d.solicitacaoProduto = :solicitacaoProduto")
 	boolean existsByDoadorAndSolicitacaoProduto(Doador doador, SolicitacaoProduto solicitacaoProduto);

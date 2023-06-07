@@ -1,7 +1,9 @@
 package br.com.fiap.foodshare.services;
 
-import org.springdoc.core.converters.models.Pageable;
+
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 
 import br.com.fiap.foodshare.dto.ProdutoDTO;
 import br.com.fiap.foodshare.dto.responseDTO.ProdutoResponseDTO;

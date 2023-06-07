@@ -184,17 +184,18 @@ public class SolicitacaoServiceImpl implements SolicitacaoService {
 	}
 
 	@Override
-	public List<SolicitacaoResponseDTO> buscarSolicitacoesPorIdCliente(Long idCliente) {
-		Receptor receptor = receptorRepository.findById(idCliente)
-				.orElseThrow(() -> new RestNotFoundException("Receptor com ID " + idCliente + " não encontrado."));
+	public Page<SolicitacaoResponseDTO> buscarSolicitacoesPorIdCliente(Long idCliente, Pageable pageable) {
+	    Receptor receptor = receptorRepository.findById(idCliente)
+	            .orElseThrow(() -> new RestNotFoundException("Receptor com ID " + idCliente + " não encontrado."));
 
-		List<Solicitacao> solicitacoes = solicitacaoRepository.findByReceptor(receptor);
+	    Page<Solicitacao> solicitacoes = solicitacaoRepository.findByReceptor(receptor, pageable);
 
-		return solicitacoes.stream().map(solicitacao -> {
-			SolicitacaoResponseDTO solicitacaoResponseDTO = new SolicitacaoResponseDTO(solicitacao);
-			solicitacaoResponseDTO.getSolicitacaoProduto()
-					.forEach(c -> c.setJaFoiDoado(verificaDoacoesProdutoSolicitacao(c)));
-			return solicitacaoResponseDTO;
-		}).collect(Collectors.toList());
+	    return solicitacoes.map(solicitacao -> {
+	        SolicitacaoResponseDTO solicitacaoResponseDTO = new SolicitacaoResponseDTO(solicitacao);
+	        solicitacaoResponseDTO.getSolicitacaoProduto()
+	                .forEach(c -> c.setJaFoiDoado(verificaDoacoesProdutoSolicitacao(c)));
+	        return solicitacaoResponseDTO;
+	    });
 	}
+
 }
