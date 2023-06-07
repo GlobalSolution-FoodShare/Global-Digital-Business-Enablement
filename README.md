@@ -38,6 +38,9 @@ docker compose up --build
 # Pitch:
 - [clique aqui](https://youtu.be/hl9_DjcMqsg)  
 
+caso deseje vídeo do prótotipo:
+- [clique aqui](https://youtu.be/JkopebupOSc)
+
 # Figma: 
 ### Representação visual do projeto com a parte da UX e interação do usuário.
 - [clique para visualizar](https://www.figma.com/file/KA3aAdp1wb8UUj7gDS5wH9/Food-Share?type=design&node-id=0%3A1&t=tilBX1X5VHSXwFSc-1)  
