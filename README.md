@@ -11,6 +11,8 @@
 
 - [Endpoints](#endpoints)
 
+- [Diagrama de classe](#diagrama-classe)
+
 - [Arquitetura](#arquitetura-projeto)
 
 # Sobre:
@@ -33,6 +35,13 @@
 ### Neste link está estruturado todos os endpoints que serão utilizados na aplicação.
 ### Documento: 
 - [clique aqui](https://app.swaggerhub.com/apis-docs/LUANSSRR/Foodshare/1.0.0)
+
+# Diagrama de classes: 
+
+<div id="arquitetura-projeto" style="background-color: white; padding: 10px; border-radius: 10px;">
+    <img src="" />
+</div>
+
 # Aquitetura do projeto:
 
 <div id="arquitetura-projeto" style="background-color: white; padding: 10px; border-radius: 10px;">
