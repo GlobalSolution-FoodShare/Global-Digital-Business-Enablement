@@ -1,11 +1,14 @@
 package br.com.fiap.foodshare.repository;
 
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import br.com.fiap.foodshare.models.Receptor;
 import br.com.fiap.foodshare.models.Solicitacao;
 import br.com.fiap.foodshare.models.SolicitacaoProduto;
 
@@ -17,6 +20,8 @@ public interface SolicitacaoRepository extends JpaRepository<Solicitacao, Long>{
     boolean existsDoacaoBySolicitacaoProduto(SolicitacaoProduto solicitacaoProduto);
 
     Page<Solicitacao> findAll(Pageable pageable);
+
+	List<Solicitacao> findByReceptor(Receptor receptor);
 
     
 }

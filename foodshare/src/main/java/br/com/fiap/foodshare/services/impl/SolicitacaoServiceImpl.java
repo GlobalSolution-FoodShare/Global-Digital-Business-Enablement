@@ -32,158 +32,169 @@ import br.com.fiap.foodshare.services.SolicitacaoService;
 @Service
 public class SolicitacaoServiceImpl implements SolicitacaoService {
 
-    @Autowired
-    private SolicitacaoRepository solicitacaoRepository;
+	@Autowired
+	private SolicitacaoRepository solicitacaoRepository;
 
-    @Autowired
-    private ReceptorRepository receptorRepository;
+	@Autowired
+	private ReceptorRepository receptorRepository;
 
-    @Autowired
-    private ProdutoRepository produtoRepository;
+	@Autowired
+	private ProdutoRepository produtoRepository;
 
-    @Autowired
-    private SolicitacaoProdutoRepository solicitacaoProdutoRepository;
+	@Autowired
+	private SolicitacaoProdutoRepository solicitacaoProdutoRepository;
 
-    @Override
-    public Page<SolicitacaoResponseDTO> buscarTodos(Pageable pageable) {
-        Page<Solicitacao> solicitacoes = solicitacaoRepository.findAll(pageable);
+	@Override
+	public Page<SolicitacaoResponseDTO> buscarTodos(Pageable pageable) {
+		Page<Solicitacao> solicitacoes = solicitacaoRepository.findAll(pageable);
 
-        return solicitacoes.map(solicitacao -> {
-            SolicitacaoResponseDTO solicitacaoResponseDTO = new SolicitacaoResponseDTO(solicitacao);
-            solicitacaoResponseDTO.getSolicitacaoProduto()
-                    .forEach(c -> c.setJaFoiDoado(verificaDoacoesProdutoSolicitacao(c)));
-            return solicitacaoResponseDTO;
-        });
-    }
+		return solicitacoes.map(solicitacao -> {
+			SolicitacaoResponseDTO solicitacaoResponseDTO = new SolicitacaoResponseDTO(solicitacao);
+			solicitacaoResponseDTO.getSolicitacaoProduto()
+					.forEach(c -> c.setJaFoiDoado(verificaDoacoesProdutoSolicitacao(c)));
+			return solicitacaoResponseDTO;
+		});
+	}
 
-    @Override
-    public SolicitacaoResponseDTO buscarPorId(Long id) {
-        Solicitacao solicitacao = solicitacaoRepository.findById(id)
-                .orElseThrow(() -> new RestNotFoundException("Cliente não localizado"));
+	@Override
+	public SolicitacaoResponseDTO buscarPorId(Long id) {
+		Solicitacao solicitacao = solicitacaoRepository.findById(id)
+				.orElseThrow(() -> new RestNotFoundException("Cliente não localizado"));
 
-        SolicitacaoResponseDTO solicitaoResponse = new SolicitacaoResponseDTO(solicitacao);
-        solicitaoResponse.getSolicitacaoProduto().forEach(c -> c.setJaFoiDoado(verificaDoacoesProdutoSolicitacao(c)));
+		SolicitacaoResponseDTO solicitaoResponse = new SolicitacaoResponseDTO(solicitacao);
+		solicitaoResponse.getSolicitacaoProduto().forEach(c -> c.setJaFoiDoado(verificaDoacoesProdutoSolicitacao(c)));
 
-        return solicitaoResponse;
-    }
+		return solicitaoResponse;
+	}
 
-    @Override
-    public SolicitacaoResponseDTO cadastrar(SolicitacaoDTO solicitacaoDTO) {
-        Solicitacao solicitacao = new Solicitacao();
+	@Override
+	public SolicitacaoResponseDTO cadastrar(SolicitacaoDTO solicitacaoDTO) {
+		Solicitacao solicitacao = new Solicitacao();
 
-        Optional<Receptor> receptorOpt = receptorRepository.findById(solicitacaoDTO.getCliente());
-        if (receptorOpt.isPresent()) {
-            solicitacao.setReceptor(receptorOpt.get());
-        } else {
-            throw new RestNotFoundException("Receptor com ID " + solicitacaoDTO.getCliente() + " não encontrado.");
-        }
+		Optional<Receptor> receptorOpt = receptorRepository.findById(solicitacaoDTO.getCliente());
+		if (receptorOpt.isPresent()) {
+			solicitacao.setReceptor(receptorOpt.get());
+		} else {
+			throw new RestNotFoundException("Receptor com ID " + solicitacaoDTO.getCliente() + " não encontrado.");
+		}
 
-        solicitacao.setData(LocalDateTime.now());
-        solicitacao.setStatus(Status.AGUARDANDO);
+		solicitacao.setData(LocalDateTime.now());
+		solicitacao.setStatus(Status.AGUARDANDO);
 
-        List<SolicitacaoProduto> solicitacaoProdutos = new ArrayList<>();
-        for (SolicitacaoProdutoDTO spDto : solicitacaoDTO.getSolicitacoesProduto()) {
-            SolicitacaoProduto sp = new SolicitacaoProduto();
+		List<SolicitacaoProduto> solicitacaoProdutos = new ArrayList<>();
+		for (SolicitacaoProdutoDTO spDto : solicitacaoDTO.getSolicitacoesProduto()) {
+			SolicitacaoProduto sp = new SolicitacaoProduto();
 
-            Optional<Produto> produtoOpt = produtoRepository.findById(spDto.getProduto().getId());
-            if (produtoOpt.isPresent()) {
-                sp.setProduto(produtoOpt.get());
-            } else {
-                throw new RestNotFoundException("Produto com ID " + spDto.getProduto().getId() + " não encontrado.");
-            }
+			Optional<Produto> produtoOpt = produtoRepository.findById(spDto.getProduto().getId());
+			if (produtoOpt.isPresent()) {
+				sp.setProduto(produtoOpt.get());
+			} else {
+				throw new RestNotFoundException("Produto com ID " + spDto.getProduto().getId() + " não encontrado.");
+			}
 
-            sp.setQuantidade(spDto.getQuantidade());
+			sp.setQuantidade(spDto.getQuantidade());
 
-            sp.setSolicitacao(solicitacao);
-            solicitacaoProdutos.add(sp);
-        }
+			sp.setSolicitacao(solicitacao);
+			solicitacaoProdutos.add(sp);
+		}
 
-        solicitacao.setSolicitacaoProduto(solicitacaoProdutos);
+		solicitacao.setSolicitacaoProduto(solicitacaoProdutos);
 
-        Solicitacao savedSolicitacao = solicitacaoRepository.save(solicitacao);
+		Solicitacao savedSolicitacao = solicitacaoRepository.save(solicitacao);
 
-        return new SolicitacaoResponseDTO(savedSolicitacao);
-    }
+		return new SolicitacaoResponseDTO(savedSolicitacao);
+	}
 
-    @Override
-    public SolicitacaoResponseDTO atualizar(Long id, SolicitacaoDTO solicitacaoDTO) {
-        Solicitacao solicitacao = solicitacaoRepository.findById(id)
-                .orElseThrow(() -> new RestNotFoundException("Solicitação não encontrada com o id: " + id));
+	@Override
+	public SolicitacaoResponseDTO atualizar(Long id, SolicitacaoDTO solicitacaoDTO) {
+		Solicitacao solicitacao = solicitacaoRepository.findById(id)
+				.orElseThrow(() -> new RestNotFoundException("Solicitação não encontrada com o id: " + id));
 
-        if (solicitacao.getStatus() == Status.CANCELADO) {
-            throw new BadRequestException("Solicitação concluída ou cancelada");
-        }
+		if (solicitacao.getStatus() == Status.CANCELADO) {
+			throw new BadRequestException("Solicitação concluída ou cancelada");
+		}
 
-        if (solicitacaoDTO.getCliente() != null) {
-            Receptor receptor = receptorRepository.findById(solicitacaoDTO.getCliente())
-                    .orElseThrow(() -> new RestNotFoundException(
-                            "Receptor não encontrado com o id: " + solicitacaoDTO.getCliente()));
-            solicitacao.setReceptor(receptor);
-        }
+		if (solicitacaoDTO.getCliente() != null) {
+			Receptor receptor = receptorRepository.findById(solicitacaoDTO.getCliente())
+					.orElseThrow(() -> new RestNotFoundException(
+							"Receptor não encontrado com o id: " + solicitacaoDTO.getCliente()));
+			solicitacao.setReceptor(receptor);
+		}
 
-        Set<Long> idsProdutosDto = solicitacaoDTO.getSolicitacoesProduto().stream()
-                .map(spDto -> spDto.getProduto().getId())
-                .collect(Collectors.toSet());
+		Set<Long> idsProdutosDto = solicitacaoDTO.getSolicitacoesProduto().stream()
+				.map(spDto -> spDto.getProduto().getId()).collect(Collectors.toSet());
 
-        List<SolicitacaoProduto> spToRemove = solicitacao.getSolicitacaoProduto().stream()
-                .filter(sp -> !idsProdutosDto.contains(sp.getProduto().getId()))
-                .collect(Collectors.toList());
+		List<SolicitacaoProduto> spToRemove = solicitacao.getSolicitacaoProduto().stream()
+				.filter(sp -> !idsProdutosDto.contains(sp.getProduto().getId())).collect(Collectors.toList());
 
-        solicitacao.getSolicitacaoProduto().removeAll(spToRemove);
+		solicitacao.getSolicitacaoProduto().removeAll(spToRemove);
 
-        for (SolicitacaoProduto sp : spToRemove) {
-            solicitacaoProdutoRepository.delete(sp);
-        }
+		for (SolicitacaoProduto sp : spToRemove) {
+			solicitacaoProdutoRepository.delete(sp);
+		}
 
-        for (SolicitacaoProdutoDTO spDto : solicitacaoDTO.getSolicitacoesProduto()) {
-            SolicitacaoProduto sp = solicitacao.getSolicitacaoProduto().stream()
-                    .filter(solicitacaoProduto -> solicitacaoProduto.getProduto().getId()
-                            .equals(spDto.getProduto().getId()))
-                    .findFirst()
-                    .orElse(new SolicitacaoProduto());
+		for (SolicitacaoProdutoDTO spDto : solicitacaoDTO.getSolicitacoesProduto()) {
+			SolicitacaoProduto sp = solicitacao.getSolicitacaoProduto().stream().filter(
+					solicitacaoProduto -> solicitacaoProduto.getProduto().getId().equals(spDto.getProduto().getId()))
+					.findFirst().orElse(new SolicitacaoProduto());
 
-            sp.setQuantidade(spDto.getQuantidade());
+			sp.setQuantidade(spDto.getQuantidade());
 
-            if (sp.getProduto() == null) {
-                Produto produto = produtoRepository.findById(spDto.getProduto().getId())
-                        .orElseThrow(() -> new RestNotFoundException(
-                                "Produto não encontrado com o id: " + spDto.getProduto().getId()));
-                sp.setProduto(produto);
-            }
+			if (sp.getProduto() == null) {
+				Produto produto = produtoRepository.findById(spDto.getProduto().getId())
+						.orElseThrow(() -> new RestNotFoundException(
+								"Produto não encontrado com o id: " + spDto.getProduto().getId()));
+				sp.setProduto(produto);
+			}
 
-            sp.setSolicitacao(solicitacao);
-            solicitacao.getSolicitacaoProduto().add(sp);
-        }
+			sp.setSolicitacao(solicitacao);
+			solicitacao.getSolicitacaoProduto().add(sp);
+		}
 
-        Solicitacao updatedSolicitacao = solicitacaoRepository.save(solicitacao);
+		Solicitacao updatedSolicitacao = solicitacaoRepository.save(solicitacao);
 
-        return new SolicitacaoResponseDTO(updatedSolicitacao);
-    }
+		return new SolicitacaoResponseDTO(updatedSolicitacao);
+	}
 
-    @Override
-    public void deletar(Long id) {
-        Solicitacao solicitacao = solicitacaoRepository.findById(id)
-                .orElseThrow(() -> new RestNotFoundException("Solicitação não encontrada com o id: " + id));
+	@Override
+	public void deletar(Long id) {
+		Solicitacao solicitacao = solicitacaoRepository.findById(id)
+				.orElseThrow(() -> new RestNotFoundException("Solicitação não encontrada com o id: " + id));
 
-        solicitacaoRepository.delete(solicitacao);
-    }
+		solicitacaoRepository.delete(solicitacao);
+	}
 
-    @Override
-    public SolicitacaoResponseDTO atualizarStatus(Long id, Status novoStatus) {
-        Solicitacao solicitacao = solicitacaoRepository.findById(id)
-                .orElseThrow(() -> new RestNotFoundException("Solicitação não encontrada com o id: " + id));
+	@Override
+	public SolicitacaoResponseDTO atualizarStatus(Long id, Status novoStatus) {
+		Solicitacao solicitacao = solicitacaoRepository.findById(id)
+				.orElseThrow(() -> new RestNotFoundException("Solicitação não encontrada com o id: " + id));
 
-        solicitacao.setStatus(novoStatus);
+		solicitacao.setStatus(novoStatus);
 
-        Solicitacao solicitacaoAtualizada = solicitacaoRepository.save(solicitacao);
+		Solicitacao solicitacaoAtualizada = solicitacaoRepository.save(solicitacao);
 
-        return new SolicitacaoResponseDTO(solicitacaoAtualizada);
-    }
+		return new SolicitacaoResponseDTO(solicitacaoAtualizada);
+	}
 
-    private boolean verificaDoacoesProdutoSolicitacao(SolicitacaoProdutoResponseDTO solicitacaoProdutoResponse) {
-        SolicitacaoProduto solicitacaoProduto = new SolicitacaoProduto();
-        solicitacaoProduto.setId(solicitacaoProdutoResponse.getId());
+	private boolean verificaDoacoesProdutoSolicitacao(SolicitacaoProdutoResponseDTO solicitacaoProdutoResponse) {
+		SolicitacaoProduto solicitacaoProduto = new SolicitacaoProduto();
+		solicitacaoProduto.setId(solicitacaoProdutoResponse.getId());
 
-        return solicitacaoRepository.existsDoacaoBySolicitacaoProduto(solicitacaoProduto);
-    }
+		return solicitacaoRepository.existsDoacaoBySolicitacaoProduto(solicitacaoProduto);
+	}
+
+	@Override
+	public List<SolicitacaoResponseDTO> buscarSolicitacoesPorIdCliente(Long idCliente) {
+		Receptor receptor = receptorRepository.findById(idCliente)
+				.orElseThrow(() -> new RestNotFoundException("Receptor com ID " + idCliente + " não encontrado."));
+
+		List<Solicitacao> solicitacoes = solicitacaoRepository.findByReceptor(receptor);
+
+		return solicitacoes.stream().map(solicitacao -> {
+			SolicitacaoResponseDTO solicitacaoResponseDTO = new SolicitacaoResponseDTO(solicitacao);
+			solicitacaoResponseDTO.getSolicitacaoProduto()
+					.forEach(c -> c.setJaFoiDoado(verificaDoacoesProdutoSolicitacao(c)));
+			return solicitacaoResponseDTO;
+		}).collect(Collectors.toList());
+	}
 }

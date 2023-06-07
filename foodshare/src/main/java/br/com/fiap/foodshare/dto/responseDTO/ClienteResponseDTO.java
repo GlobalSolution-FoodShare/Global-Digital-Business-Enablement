@@ -30,6 +30,8 @@ public class ClienteResponseDTO {
 
     @NotNull(message = "O perfil é obrigatório")
     private Perfil perfil;
+    
+    private String email;
 
     private EnderecoResponseDTO endereco;
 
@@ -38,8 +40,10 @@ public class ClienteResponseDTO {
         this.cpf = cliente.getCpf();
         this.nomeCompleto = cliente.getNomeCompleto();
         this.perfil = cliente.getTipo();
+        this.email = (cliente.getUsuario() == null ? null : cliente.getUsuario().getEmail());
         this.endereco = (cliente.getEndereco() == null ? new EnderecoResponseDTO(null)
                 : new EnderecoResponseDTO(cliente.getEndereco()));
+        
     }
 
     public ClienteResponseDTO(Receptor cliente) {
@@ -47,6 +51,7 @@ public class ClienteResponseDTO {
         this.cpf = cliente.getCpf();
         this.nomeCompleto = cliente.getNomeCompleto();
         this.perfil = cliente.getTipo();
+        this.email = (cliente.getUsuario() == null ? null : cliente.getUsuario().getEmail());
         this.endereco = (cliente.getEndereco() == null ? new EnderecoResponseDTO(null)
                 : new EnderecoResponseDTO(cliente.getEndereco()));
     }
@@ -56,6 +61,7 @@ public class ClienteResponseDTO {
         this.cpf = cliente.getCpf();
         this.nomeCompleto = cliente.getNomeCompleto();
         this.perfil = cliente.getTipo();
+        this.email = (cliente.getUsuario() == null ? null : cliente.getUsuario().getEmail());
         this.endereco = (cliente.getEndereco() == null ? new EnderecoResponseDTO(null)
                 : new EnderecoResponseDTO(cliente.getEndereco()));
     }

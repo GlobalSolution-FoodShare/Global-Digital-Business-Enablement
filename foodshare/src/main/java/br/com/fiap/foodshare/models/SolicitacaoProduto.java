@@ -30,7 +30,7 @@ public class SolicitacaoProduto {
 
     @Column(name = "QTD_PRODUTO")
     private Integer quantidade;
-
+    
     @Override
     public String toString() {
         return "SolicitacaoProduto [idSolicitacaoProduto=" + id + ", produto=" + produto

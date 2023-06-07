@@ -6,5 +6,6 @@ public record Token(
                 String token,
                 String type,
                 String prefix,
-                LocalDateTime ultimoAcesso) {
+                LocalDateTime ultimoAcesso,
+                Long cliente) {
 }

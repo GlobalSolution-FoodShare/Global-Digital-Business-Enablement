@@ -43,7 +43,6 @@ public class ClienteServiceImpl implements ClienteService {
     public ClienteResponseDTO buscarPorId(Long id) {
         Cliente cliente = clienteRepository.findById(id)
                 .orElseThrow(() -> new RestNotFoundException("Cliente não localizado"));
-
         return new ClienteResponseDTO(cliente);
     }
 
@@ -101,7 +100,7 @@ public class ClienteServiceImpl implements ClienteService {
     public List<ClienteResponseDTO> buscarPorRaioDistancia(Double latitude, Double longitude, Double raio) {
         List<Cliente> clientes = clienteRepository.buscarClientesNoRaio(latitude, longitude, raio);
 
-        
+       
         // Mapear os objetos Cliente para ClienteResponseDTO
         List<ClienteResponseDTO> clientesResponse = clientes.stream()
                 .map(cliente -> {

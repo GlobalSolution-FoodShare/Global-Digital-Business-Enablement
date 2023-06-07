@@ -43,8 +43,9 @@ public class UsuarioServiceImpl implements UsuarioService {
         manager.authenticate(credencial.toAuthentication());
         var token = tokenService.generateToken(credencial);
         var usuario = fazBuscaEmail(credencial);
+        
 
-        Token tokenComUltimoAcesso = new Token(token.token(), token.type(), token.prefix(), usuario.getUltimoAcesso());
+        Token tokenComUltimoAcesso = new Token(token.token(), token.type(), token.prefix(), usuario.getUltimoAcesso(), usuario.getCliente().getId());
 
 
         return tokenComUltimoAcesso;

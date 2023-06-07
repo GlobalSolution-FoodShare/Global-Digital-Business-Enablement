@@ -33,7 +33,7 @@ public class TokenService {
                 .withIssuer("FoodShare10")
                 .withExpiresAt(Instant.now().plus(1, ChronoUnit.HOURS))
                 .sign(alg);
-        return new Token(token, "JWT", "Bearer", null);
+        return new Token(token, "JWT", "Bearer", null, null);
     }
 
     public boolean validarToken(String token) {

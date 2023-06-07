@@ -41,12 +41,11 @@ public class SecurityConfig {
                 .configurationSource(corsConfigurationSource) // Configuração de CORS aqui
             .and()
             .authorizeHttpRequests()
-                .requestMatchers("/h2-console/**").permitAll()
                 .requestMatchers("/api/login").permitAll()
                 .requestMatchers("/api/registrar").permitAll()
                 .requestMatchers("/api/atualizar/**").permitAll()
                 .requestMatchers("/api/cliente/registrar").permitAll()
-                .anyRequest().permitAll()
+                .anyRequest().authenticated()
             .and()
             .csrf().disable()
             .headers().frameOptions().disable()

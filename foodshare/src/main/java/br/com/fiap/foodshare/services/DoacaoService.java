@@ -1,5 +1,7 @@
 package br.com.fiap.foodshare.services;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -18,6 +20,8 @@ public interface DoacaoService {
     DoacaoResponseDTO atualizar(Long id, DoacaoDTO doacao);
 
     DoacaoResponseDTO atualizarStatus(Long id, Status novoStatus);
+    
+    List<DoacaoResponseDTO> buscarDoacoesPorIdCliente(Long idCliente);
 
     void deletar(Long id);
 

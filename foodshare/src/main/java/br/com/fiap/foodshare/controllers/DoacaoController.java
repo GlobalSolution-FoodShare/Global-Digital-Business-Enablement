@@ -1,5 +1,7 @@
 package br.com.fiap.foodshare.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,48 +23,52 @@ import br.com.fiap.foodshare.dto.StatusDTO;
 import br.com.fiap.foodshare.dto.responseDTO.DoacaoResponseDTO;
 import br.com.fiap.foodshare.services.DoacaoService;
 
-
 @CrossOrigin(origins = "http://localhost:8080", maxAge = 3600)
 @RestController
 @RequestMapping("/api/doacoes")
 public class DoacaoController {
 
-    @Autowired
-    private DoacaoService doacaoService;
+	@Autowired
+	private DoacaoService doacaoService;
 
-    @GetMapping
-    public ResponseEntity<Page<DoacaoResponseDTO>> buscarTodos(Pageable pageable) {
-        Page<DoacaoResponseDTO> doacoes = doacaoService.buscarTodos(pageable);
-        return ResponseEntity.ok(doacoes);
-    }
+	@GetMapping
+	public ResponseEntity<Page<DoacaoResponseDTO>> buscarTodos(Pageable pageable) {
+		Page<DoacaoResponseDTO> doacoes = doacaoService.buscarTodos(pageable);
+		return ResponseEntity.ok(doacoes);
+	}
 
-    @GetMapping("/{id}")
-    public ResponseEntity<DoacaoResponseDTO> buscarPorId(@PathVariable Long id) {
-        DoacaoResponseDTO doacao = doacaoService.buscarPorId(id);
-        return ResponseEntity.ok(doacao);
-    }
+	@GetMapping("/{id}")
+	public ResponseEntity<DoacaoResponseDTO> buscarPorId(@PathVariable Long id) {
+		DoacaoResponseDTO doacao = doacaoService.buscarPorId(id);
+		return ResponseEntity.ok(doacao);
+	}
 
-    @PostMapping
-    public ResponseEntity<DoacaoResponseDTO> cadastrar(@RequestBody DoacaoDTO doacaoDTO) {
-        DoacaoResponseDTO novaDoacao = doacaoService.cadastrar(doacaoDTO);
-        return ResponseEntity.status(HttpStatus.CREATED).body(novaDoacao);
-    }
+	@PostMapping
+	public ResponseEntity<DoacaoResponseDTO> cadastrar(@RequestBody DoacaoDTO doacaoDTO) {
+		DoacaoResponseDTO novaDoacao = doacaoService.cadastrar(doacaoDTO);
+		return ResponseEntity.status(HttpStatus.CREATED).body(novaDoacao);
+	}
 
-    @PutMapping("/{id}")
-    public ResponseEntity<DoacaoResponseDTO> atualizar(@PathVariable Long id, @RequestBody DoacaoDTO doacaoDTO) {
-        DoacaoResponseDTO doacaoAtualizada = doacaoService.atualizar(id, doacaoDTO);
-        return ResponseEntity.ok(doacaoAtualizada);
-    }
+	@PutMapping("/{id}")
+	public ResponseEntity<DoacaoResponseDTO> atualizar(@PathVariable Long id, @RequestBody DoacaoDTO doacaoDTO) {
+		DoacaoResponseDTO doacaoAtualizada = doacaoService.atualizar(id, doacaoDTO);
+		return ResponseEntity.ok(doacaoAtualizada);
+	}
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deletar(@PathVariable Long id) {
-        doacaoService.deletar(id);
-        return ResponseEntity.noContent().build();
-    }
+	@DeleteMapping("/{id}")
+	public ResponseEntity<Void> deletar(@PathVariable Long id) {
+		doacaoService.deletar(id);
+		return ResponseEntity.noContent().build();
+	}
 
-    @PatchMapping("/{id}/status")
-    public ResponseEntity<DoacaoResponseDTO> atualizarStatus(@PathVariable Long id, @RequestBody StatusDTO novoStatus) {
-        DoacaoResponseDTO doacaoAtualizada = doacaoService.atualizarStatus(id, novoStatus.getStatus());
-        return ResponseEntity.ok(doacaoAtualizada);
-    }
+	@PatchMapping("/{id}/status")
+	public ResponseEntity<DoacaoResponseDTO> atualizarStatus(@PathVariable Long id, @RequestBody StatusDTO novoStatus) {
+		DoacaoResponseDTO doacaoAtualizada = doacaoService.atualizarStatus(id, novoStatus.getStatus());
+		return ResponseEntity.ok(doacaoAtualizada);
+	}
+
+	@GetMapping("/cliente={id}")
+	public List<DoacaoResponseDTO> buscarDoacoesPorIdCliente(@PathVariable("id") Long id) {
+		return doacaoService.buscarDoacoesPorIdCliente(id);
+	}
 }
